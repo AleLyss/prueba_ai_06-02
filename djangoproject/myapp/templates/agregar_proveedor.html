@@ -1,0 +1,15 @@
+{% extends 'plantilla_agregar.html' %}
+
+{% block title %}Agregar Proveedor{% endblock %}}
+
+{% block content %}
+<div class="container">
+        <h1>Agregar Nuevo Proveedor</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Guardar">
+        </form>
+    </div>
+    {% endblock %}
+    

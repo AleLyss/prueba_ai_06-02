@@ -1,0 +1,29 @@
+{% extends 'plantilla_mostrar_individual.html' %}
+
+{% block title %}Detalle de Proveedor{% endblock %}}
+
+{% block content %}
+      <div class="container">
+    <h1>Detalles del Proveedor</h1>
+    <ul>
+        <li><span>RUC:</span> <span>{{ proveedor.ruc_proveedor }}</span></li>
+        <li><span>Nombre:</span> <span>{{ proveedor.Nombres }}</span></li>
+        <li><span>Tipo:</span> <span>{{ proveedor.tipo }}</span></li>
+        <li><span>Ciudad:</span> <span>{{ proveedor.ciudad }}</span></li>
+        <li><span>País:</span> <span>{{ proveedor.pais }}</span></li>
+        <li><span>Dirección:</span> <span>{{ proveedor.direccion }}</span></li>
+        <li><span>Email:</span> <span>{{ proveedor.email }}</span></li>
+        <li><span>Crédito:</span> <span>{{ proveedor.credito }}</span></li>
+        <li><span>Teléfono:</span> <span>{{ proveedor.Telefono }}</span></li>
+        <li><span>Contacto (Nombre y Apellidos):</span> <span>{{ proveedor.contacto_nombre_apellidos }}</span></li>
+        <li><span>Contacto (Teléfono):</span> <span>{{ proveedor.contacto_telefono }}</span></li>
+        <li><span>Contacto (Email):</span> <span>{{ proveedor.contacto_email }}</span></li>
+    </ul>
+</div>
+
+<!-- Botones debajo del recuadro -->
+<div class="botones-externos">
+  <a href="{% url 'editar_proveedor' proveedor.ruc_proveedor %}"" class="boton-personalizado">Editar Producto</a>
+  <a href="{% url 'eliminar_proveedor' proveedor.ruc_proveedor %}" class="boton-personalizado">Eliminar Proveedor</a>
+</div>
+{% endblock %}

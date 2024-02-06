@@ -1,0 +1,25 @@
+{% extends 'plantilla_mostrar_individual.html' %}
+
+{% block title %}Detalle de Usuario{% endblock %}
+
+{% block content %}
+      <div class="container">
+    <h1>Detalles de Usuario</h1>
+    <ul>
+      <li><span>ID de Rol:</span> <span>{{ usuario.id_rol }}</span></li>
+      <li><span>Nombres y Apellidos:</span> <span>{{ usuario.nombres_apellidos }}</span></li>
+      <li><span>Cédula:</span> <span>{{ usuario.cedula }}</span></li>
+      <li><span>Dirección:</span> <span>{{ usuario.direccion }}</span></li>
+      <li><span>Teléfono:</span> <span>{{ usuario.telefono }}</span></li>
+      <li><span>Email:</span> <span>{{ usuario.email }}</span></li>
+      <li><span>Referencia:</span> <span>{{ usuario.referencia }}</span></li>
+    </ul>
+  </div>
+
+  <!-- Botones debajo del recuadro -->
+  <div class="botones-externos">
+    <a href="{% url 'editar_usuario' usuario.cedula %}" class="boton-personalizado">Editar Usuario</a>
+    <a href="{% url 'eliminar_usuario' usuario.cedula %}" class="boton-personalizado">Eliminar Usuario</a>
+  </div>
+{% endblock %}
+  

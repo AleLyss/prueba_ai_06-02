@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Perfil</title>
+       <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; /* Fondo oscuro */
+            color: #E0E0E0; /* Texto claro */
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #262626; /* Fondo de formulario oscuro */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra para resaltar el formulario */
+        }
+
+        label {
+            margin-bottom: 5px;
+            display: block;
+            color: #E0E0E0; /* Texto claro para las etiquetas */
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            background-color: #333333; /* Fondo de campos oscuro */
+            color: #E0E0E0; /* Texto claro */
+            border: 1px solid #444444; /* Borde de campos */
+        }
+
+        input[type="submit"] {
+            background-color: #0D6EFD; /* Color de botón primario de Bootstrap */
+            color: #fff;
+            cursor: pointer;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0B5ED7; /* Color de botón al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+    <h1>Crear Perfil</h1>
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- User Form Fields -->
+        {{ user_form.username.label_tag }} {{ user_form.username }}
+        <br>
+        {{ user_form.email.label_tag }} {{ user_form.email }}
+        <br>
+        {{ user_form.password1.label_tag }} {{ user_form.password1 }}
+        <br>
+        {{ user_form.password2.label_tag }} {{ user_form.password2 }}
+        <br>
+
+        <!-- Profile Form Fields -->
+        {{ profile_form.rol.label_tag }} {{ profile_form.rol }}
+        <br>
+        {{ profile_form.nombres_apellidos.label_tag }} {{ profile_form.nombres_apellidos }}
+        <br>
+        {{ profile_form.cedula.label_tag }} {{ profile_form.cedula }}
+        <br>
+        {{ profile_form.direccion.label_tag }} {{ profile_form.direccion }}
+        <br>
+        {{ profile_form.telefono.label_tag }} {{ profile_form.telefono }}
+        <br>
+        {{ profile_form.referencia.label_tag }} {{ profile_form.referencia }}
+        <br>
+
+        <input type="submit" value="Crear Perfil">
+    </form>
+</body>
+</html>

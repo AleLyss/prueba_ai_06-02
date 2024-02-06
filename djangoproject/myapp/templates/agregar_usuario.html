@@ -1,0 +1,14 @@
+{% extends 'plantilla_agregar.html' %}
+
+{% block title %}Agregar Usuario{% endblock %}}
+
+{% block content %}
+<div class="container">
+    <h1>Agregar Nuevo Usuario</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    </form>
+</div>
+{% endblock %}

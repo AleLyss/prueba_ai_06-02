@@ -1,0 +1,302 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ventas</title>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+  <!-- DataTable.js -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/productos.css' %}" />
+  <!-- Modo oscuro -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #222; /* Color de fondo oscuro */
+      color: #fff; /* Texto claro */
+    }
+
+    /* Estilos personalizados */
+    .table th,
+    .table td {
+      border-color: #333; /* Color de borde oscuro */
+      color: #fff; /* Texto claro */
+    }
+
+    /* Estilos para los encabezados */
+    .table th {
+      background-color: #444; /* Fondo de encabezado oscuro */
+    }
+
+    /* Agrega más estilos personalizados aquí si es necesario */
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="https://tecnoscorpion.com" target="_blank">TecnoScorpion</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'menuvista' %}">Inicio</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProductos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Productos
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownProductos">
+              <li><a class="dropdown-item" href="{% url 'agregar_producto' %}">Agregar Producto</a></li>
+              <li><a class="dropdown-item" href="{% url 'productos' %}">Administrar Productos</a></li>
+              <!-- Agrega más opciones relacionadas con productos aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProveedores" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Proveedores
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownProveedores">
+              <li><a class="dropdown-item" href="{% url 'agregar_proveedor' %}">Agregar Proveedor</a></li>
+              <li><a class="dropdown-item" href="{% url 'proveedores' %}">Administrar Proveedor</a></li>
+              <!-- Agrega más opciones relacionadas con proveedores aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuario" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Usuario
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownUsuario">
+              <li><a class="dropdown-item" href="{% url 'create_profile' %}">Agregar Perfil a Usuario</a></li>
+              <li><a class="dropdown-item" href="{% url 'profile' %}">Administrar Usuarios</a></li>
+              <!-- Agrega más opciones relacionadas con usuarios aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownClientes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Clientes
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownClientes">
+              <li><a class="dropdown-item" href="{% url 'agregar_cliente' %}">Agregar Cliente</a></li>
+              <li><a class="dropdown-item" href="{% url 'clientes' %}">Administrar Clientes</a></li>
+              <!-- Agrega más opciones relacionadas con clientes aquí si es necesario -->
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ventas' %}">Ventas</a>
+          </li>
+          <!-- Agrega más elementos de menú aquí si es necesario -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <h1>Comprobante de Ventas</h1>
+
+    <form method="post" action="#procesar_ventas">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <label for="identificacion">RUC/Cedula/Pasaporte:</label>
+            <input type="text" id="identificacion" name="identificacion"/>
+            <button type="button" onclick="buscarCliente()">Buscar Cliente</button><br /><br />
+
+            <label for="nombres_apellidos">Nombre y Apellidos:</label>
+            <input type="text" id="nombres_apellidos" name="nombres_apellidos" disabled />
+            <label for="direccion">Direccion:</label>
+            <input type="text" name="direccion" id="direccion" disabled>
+            <label for="telefono">Telefono:</label>
+            <input type="text" id="telefono" name="telefono" disabled />
+            <br/><br/>
+
+            <label for="fecha_venta">Fecha:</label>
+            <input type="date" name="fecha_venta" id="fecha_venta">
+        </fieldset>
+
+        <fieldset>
+            <legend>Tabla de Productos</legend>
+            <table id="productos_table">
+                <!-- Encabezados de la tabla -->
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Código de Producto</th>
+                    <th>Producto</th>
+                    <th>Precio Unitario</th>
+                    <th>Valor Total</th>
+                </tr>
+            <tr>
+              <td><input type="number" name="cantidad" min="1" step="1" /></td>
+              <td><input type="text" name="codigo" id="codigo" maxlength="10" /></td>
+              <td><input type="text" name="productos" id="productonombre" disabled /></td>
+              <td>
+                <input
+                  type="number"
+                  name="precio_unitario"
+                  id="precio_unitario"
+                  min="0"
+                  disabled
+                  step="0.01"
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="valor_total"
+                  min="0"
+                  disabled
+                  step="0.01"
+                />
+              </td>
+            </tr>
+          </table>
+            <button type="button"  onclick="buscarProducto()">Buscar Producto</button>
+         
+          <input type="submit" value="Guardar" />
+        </fieldset>
+      </form>
+
+      <button type="button" onclick="agregarFila()">
+        Agregar Nuevo Producto
+      </button>
+
+      <script>
+        // Lógica para agregar filas a la tabla de productos
+        let productoCount = 1;
+
+        function agregarFila() {
+            productoCount++;
+            const table = document.getElementById("productos_table");
+            const newRow = table.insertRow(-1);
+            const cells = Array.from({ length: 5 }, () => newRow.insertCell());
+            cells[0].innerHTML = `<input type="number" name="cantidad_${productoCount}" min="1" step="1">`;
+            cells[1].innerHTML = `<input type="text" name="codigo_${productoCount}" maxlength="10">`;
+            cells[2].innerHTML = `<input type="text" name="productos_${productoCount}" readonly disabled>`;
+            cells[3].innerHTML = `<input type="number" name="precio_unitario_${productoCount}" min="0" step="0.01" disabled>`;
+            cells[4].innerHTML = `<input type="number" name="valor_total_${productoCount}" min="0" step="0.01" disabled>`;
+        }
+
+        // Lógica para cálculos básicos en tiempo real
+        document.getElementById("productos_table").addEventListener("input", function (e) {
+          const target = e.target;
+          if (target.tagName === "INPUT" && (target.name.includes("cantidad") || target.name.includes("precio_unitario"))) {
+              const parentRow = target.closest("tr");
+              const cantidad = parseFloat(parentRow.querySelector(`[name^='cantidad']`).value);
+              const precioUnitario = parseFloat(parentRow.querySelector(`[name^='precio_unitario']`).value);
+              const valorTotalInput = parentRow.querySelector(`[name^='valor_total']`);
+      
+              if (!isNaN(cantidad) && !isNaN(precioUnitario)) {
+                  const valorTotal = cantidad * precioUnitario;
+                  valorTotalInput.value = isNaN(valorTotal) ? '' : valorTotal.toFixed(2);
+              } else {
+                  valorTotalInput.value = '';
+              }
+          }
+      });
+        async function buscarProducto() {
+          try {
+              const codigo = document.getElementById('codigo').value;
+              const response = await fetch(`../buscar_producto/${codigo}`);
+              const data = await response.json();
+
+              if (data.producto && data.producto.nombre) {
+                  document.getElementById('productonombre').value = data.producto.nombre;
+                  document.getElementById('precio_unitario').value = data.producto.precioventa;
+              } else {
+                  console.error('No se encontraron datos para el producto.');
+              }
+          } catch (error) {
+              console.error('Error al buscar producto:', error);
+          }
+      }
+        async function buscarCliente() {
+          try {
+              const identificacion = document.getElementById('identificacion').value;
+              const response = await fetch(`../buscar_cliente/${identificacion}`);
+              const data = await response.json();
+
+              if (data.cliente && data.cliente.nombres_apellidos) {
+                  document.getElementById('nombres_apellidos').value = data.cliente.nombres_apellidos;
+                  document.getElementById('direccion').value = data.cliente.direccion;
+                  document.getElementById('telefono').value = data.cliente.telefono;
+              } else {
+                  console.error('No se encontraron datos para el cliente.');
+              }
+          } catch (error) {
+              console.error('Error al buscar cliente:', error);
+          }
+      }
+
+    </script>
+
+      <fieldset>
+        <legend>Tabla de Precios</legend>
+        <table id="precios_table">
+          <tr>
+            <th>Concepto</th>
+            <th>Monto</th>
+          </tr>
+          <tr>
+            <td>Sub Total</td>
+            <td><input type="text" name="sub_total" disabled /></td>
+          </tr>
+          <tr>
+            <td>Sub Total 0%</td>
+            <td><input type="text" name="sub_total_0" disabled /></td>
+          </tr>
+          <tr>
+            <td>Descuento</td>
+            <td><input type="text" name="descuento" /></td>
+          </tr>
+          <tr>
+            <td>IVA 12%</td>
+            <td><input type="text" name="iva_12" disabled /></td>
+          </tr>
+          <tr>
+            <td>Valor Total</td>
+            <td><input type="text" name="valor_total_precio" disabled /></td>
+          </tr>
+        </table>
+      </fieldset>
+
+      <fieldset>
+        <legend>Tabla de Formas de Pago</legend>
+        <table id="formas_pago_table">
+          <tr>
+            <th>Forma de Pago</th>
+            <th>Monto Total</th>
+          </tr>
+          <tr>
+            <td>Efectivo</td>
+            <td><input type="text" name="monto_efectivo" /></td>
+          </tr>
+          <tr>
+            <td>Transferencias</td>
+            <td><input type="text" name="monto_transferencias" /></td>
+          </tr>
+        </table>
+      </fieldset>
+
+      <input type="submit" value="Enviar" />
+    </form>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"
+  ></script>
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- DataTable.js -->
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+  <script src="validaciones.js"></script>
+  <!-- Custom JS -->
+
+  </body>
+</html>

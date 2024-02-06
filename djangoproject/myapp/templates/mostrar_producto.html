@@ -1,0 +1,28 @@
+{% extends 'plantilla_mostrar_individual.html' %}
+
+{% block title %}Detalle de Producto{% endblock %}}
+
+{% block content %}
+<div class="container text-center">
+  <h1 class="mt-4">Detalles del Producto</h1>
+
+  <div class="card mx-auto mt-4">
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span class="fw-bold">Código:</span>{{ producto.codigo }}</li>
+        <li class="list-group-item"><span class="fw-bold">Nombre:</span>{{ producto.nombre }}</li>
+        <li class="list-group-item"><span class="fw-bold">Descripción:</span>{{ producto.descripcion }}</li>
+        <li class="list-group-item"><span class="fw-bold">Stock:</span>{{ producto.stock }}</li>
+        <li class="list-group-item"><span class="fw-bold">Precio:</span>{{ producto.precio }}</li>
+        <li class="list-group-item"><span class="fw-bold">Precio de Venta:</span>{{ producto.precioventa }}</li>
+      </ul>
+
+      <!-- Botones de acción con clases de estilo -->
+      <div class="botones-externos mt-3">
+        <a href="{% url 'editar_producto' producto.codigo %}" class="btn btn-editar">Editar Producto</a>
+        <a href="{% url 'eliminar_producto' producto.codigo %}" class="btn btn-eliminar">Eliminar Producto</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

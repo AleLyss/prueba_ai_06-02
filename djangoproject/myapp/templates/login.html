@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Home TecnoScorpion</title>
+    <style>
+        /* Estilos básicos */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; /* Fondo oscuro */
+            color: #E0E0E0; /* Texto claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #262626; /* Fondo de formulario oscuro */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */
+            max-width: 300px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #E0E0E0; /* Texto claro para las etiquetas */
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 16px); /* Restando el padding (8px a cada lado) */
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #333333; /* Borde de campos */
+            background-color: #333333; /* Fondo de campos oscuro */
+            color: #E0E0E0; /* Texto claro */
+            box-sizing: border-box; /* Incluir el padding en el ancho total */
+        }
+
+        input[type="submit"] {
+            background-color: #0D6EFD; /* Color de botón primario de Bootstrap */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0B5ED7; /* Color de botón al pasar el ratón */
+        }
+
+        /* Center form elements */
+        .form-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <!-- Navigation content -->
+</nav>
+<!-- Contenido de la página -->
+<div class="form-container">
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+        <label for="id_username">Username:</label>
+        <input type="text" name="username" maxlength="150" required id="id_username"/>
+
+        <label for="id_password">Password:</label>
+        <input type="password" name="password" required id="id_password"/>
+
+        <input type="submit" value="Login"/>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'plantilla_mostrar_individual.html' %}
+
+{% block title %}Detalle de Cliente{% endblock %}
+
+{% block content %}
+      <div class="container">
+        <h1>Detalles del Cliente</h1>
+        <ul>
+          <li><span>Tipo de Cliente:</span> <span>{{ cliente.tipo_cliente }}</span></li>
+          <li><span>Nombres y Apellidos:</span> <span>{{ cliente.nombres_apellidos }}</span></li>
+          <li><span>Identificación:</span> <span>{{ cliente.identificacion }}</span></li>
+          <li><span>Dirección:</span> <span>{{ cliente.direccion }}</span></li>
+          <li><span>Teléfono:</span> <span>{{ cliente.telefono }}</span></li>
+          <li><span>Email:</span> <span>{{ cliente.email }}</span></li>
+          <li><span>Referencia:</span> <span>{{ cliente.referencia }}</span></li>
+          <li><span>Telegram:</span> <span>{% if cliente.telegram %} Sí {% else %} No {% endif %}</span></li>
+          <li><span>ID Telegram:</span> <span>{{ cliente.id_telegram }}</span></li>
+          <li><span>Ciudad:</span> <span>{{ cliente.ciudad }}</span></li>
+          <li><span>Provincia:</span> <span>{{ cliente.provincia }}</span></li>
+        </ul>
+      </div>
+
+      <!-- Botones debajo del recuadro -->
+      <div class="botones-externos">
+        <a href="{% url 'editar_cliente' cliente.identificacion %}" class="boton-personalizado">Editar Cliente</a>
+        <a href="{% url 'eliminar_cliente' cliente.identificacion %}" class="boton-personalizado">Eliminar Cliente</a>
+      </div>
+{% endblock %}
